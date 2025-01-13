@@ -67,7 +67,16 @@ When('user click by MickeyMouse', async function () {
 
 When('user click by seatthree', async function () {
   
-  return await clickElement(this.page, "div:nth-child(10) span:nth-child(1)");
+  return await clickElement(this.page, "div:nth-child(6) span:nth-child(9)");
+});
+
+Then('user can not click button', async function () {
+  const expected = await this.page.$eval('.acceptin-button', (button) => {
+        return button.disabled;
+      });
+  
+      expect(expected).eq(true);
+  
 });
 
 

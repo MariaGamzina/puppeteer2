@@ -42,19 +42,29 @@ describe("IdemVKino tests", () => {
     expect(actual).contain("Получить код бронирования");
   });
 
-  test.only("Book disable seat test", async () => {
+  test("Book disable seat test", async () => {
     await clickElement(page, "nav.page-nav > a:nth-of-type(3)");
     await page.waitForSelector("body > main:nth-child(3) > section:nth-child(3) > div:nth-child(1) > div:nth-child(2) > h2:nth-child(1)");
     await clickElement(page, "body > main:nth-child(3) > section:nth-child(3) > div:nth-child(4) > ul:nth-child(2) > li:nth-child(1)");
-    await clickElement(page, "div:nth-child(10) span:nth-child(1)");
+    await clickElement(page, "div:nth-child(5) span:nth-child(5)");    
     await page.waitForSelector(".acceptin-button");
-    const actual = await getText(page, ".acceptin-button");
-    //const is_disabled = await page.$('.acceptin-button[disabled]') !== null;
+    await clickElement(page, ".acceptin-button");
+    await page.waitForSelector(".acceptin-button");
+    await clickElement(page, ".acceptin-button");
+    const actual = await getText(page, ".ticket__check-title");
+    expect(actual).contain("Электронный билет");
+    await page.goto("https://qamid.tmweb.ru/client/index.php");
+    await clickElement(page, "nav.page-nav > a:nth-of-type(3)");
+    await page.waitForSelector("body > main:nth-child(3) > section:nth-child(3) > div:nth-child(1) > div:nth-child(2) > h2:nth-child(1)");
+    await clickElement(page, "body > main:nth-child(3) > section:nth-child(3) > div:nth-child(4) > ul:nth-child(2) > li:nth-child(1)");
+    await clickElement(page, "div:nth-child(5) span:nth-child(5)");
+    await page.waitForSelector(".acceptin-button");
+   
     const expected = await page.$eval('.acceptin-button', (button) => {
       return button.disabled;
     });
 
-    expect(actual).contain(expected);
+    expect(expected).eq(true);
   });
 
 
